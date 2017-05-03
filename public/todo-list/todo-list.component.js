@@ -12,7 +12,6 @@ angular.
 
       $http.get('/api/tasks').success(function(data) {
         self.tasks = data;
-        console.log(data);
       });
 
       this.newTask = {
@@ -66,9 +65,12 @@ angular.
 
       this.acceptEdit = function(task, $event) {
         if ($event.keyCode == 13 || $event.type == 'click') {
-          task.editing = false;
           if (!task.description)
             this.taskRemove(task);
+          else
+            $http.post('/api/tasks', task).success(function () {
+              task.editing = false;
+            });
         }
       };
 
