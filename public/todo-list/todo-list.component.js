@@ -28,9 +28,10 @@ angular.
         });
       };
 
-      this.removeCompleted = function() {
-        this.tasks = this.tasks.filter(function(task) {
-          return !task.completed;
+      this.removeCompleted = function() { //it can be better
+        this.tasks.forEach(function (task) {
+          if(task.completed)
+            self.taskRemove(task);
         });
       };
 
