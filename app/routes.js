@@ -45,6 +45,7 @@ module.exports = function (app, dirPath) {
       if (err) res.send(err);
       task.description = set.description;
       task.priority = set.priority;
+      task.completed = set.completed;
       task.save(function (err, updatedTask) {
         if (err) res.send(err);
         res.end();

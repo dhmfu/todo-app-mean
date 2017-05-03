@@ -6,9 +6,17 @@ angular.
   module('todoList').
   component('todoList', {
     templateUrl: 'todo-list/todo-list.template.html',
-    controller: ['$http',function todoListController($http) {
+    controller: ['$http', '$scope',function todoListController($http, $scope) {
       var self = this;
       this.tasks = [];
+
+      $scope.$on('$destroy', function () {
+        self.tasks.forEach(function (task) {
+          $http.post('/api/tasks', task).success(function () {
+            console.log(`Success updated task with id ${task._id}`);
+          });
+        })
+      });
 
       $http.get('/api/tasks').success(function(data) {
         self.tasks = data;
