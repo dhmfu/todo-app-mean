@@ -5,12 +5,8 @@ var bodyParser = require('body-parser');
 
 function getTasks(res) {
   task.find(function (err, tasks) {
-      // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-      if (err) {
-          res.send(err);
-      }
-
-      res.json(tasks); // return all todos in JSON format
+      if (err) res.send(err);
+      res.json(tasks);
   });
 };
 
@@ -33,6 +29,21 @@ module.exports = function (app, dirPath) {
     });
   });
 
+  app.post('/api/tasks/new', function (req, res) {
+    var set = req.body;
+
+    task.create({
+      description: set.description,
+      priority: set.priority,
+      completed: set.completed,
+    }, function (err, task) {
+        if (err) res.send(err);
+        res.end();
+    });
+
+  });
+
+
   app.post('/api/tasks', function (req, res) { //it can be better
     var set = req.body;
     task.findById(set._id, function (err, task) {
@@ -48,6 +59,5 @@ module.exports = function (app, dirPath) {
 
   app.get('*', function (req, res) {
     res.sendFile(path.join(dirPath+'/public' + req.url));
-    // res.end(req.url);
   });
 };

@@ -21,9 +21,11 @@ angular.
       this.addTask = function() {
         this.newTask.completed = false;
         this.tasks.push(this.newTask);
-        this.newTask = {
-          priority: 'Low'
-        };
+        $http.post('/api/tasks/new', this.newTask).success(function () {
+          self.newTask = {
+            priority: 'Low'
+          };
+        });
       };
 
       this.removeCompleted = function() {
