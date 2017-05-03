@@ -1,0 +1,50 @@
+<html lang="en" ng-app="toDoApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>To-Do list</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="background-switcher/background-switcher.css" />
+    <link rel="stylesheet" href="todo-list/todo-list.css" />
+    <link rel="stylesheet" href="app.responsive.css" />
+    <link rel="icon" type="image/png" href="img/favicon.ico">
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="app.module.js"></script>
+    <script src="app.config.js"></script>
+    <script src="background-switcher/background-switcher.module.js"></script>
+    <script src="background-switcher/background-switcher.component.js"></script>
+    <script src="todo-list/todo-list.module.js"></script>
+    <script src="todo-list/todo-list.component.js"></script>
+  </head>
+  <body ng-style="{'background-image':'url('+mainBackgroundUrl+')'}">
+    <bg-switch></bg-switch>
+
+    <nav class="navbar navbar-default" ng-controller="NavbarController as navbar">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Todo-App</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li ng-class="navbar.isActive('todo-list')"><a href="#todo-list">Todo-list</a></li>
+            <li ng-class="navbar.isActive('about')"><a href="#about">About</a></li>
+            <li ng-class="navbar.isActive('home')"><a href="#">Home</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="content" ng-view></div>
+  </body>
+</html>

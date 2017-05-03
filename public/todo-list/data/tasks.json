@@ -1,0 +1,10 @@
+[{
+  "description": "Make a todo-application",
+  "priority": "Low",
+  "completed": true
+},
+{
+  "description": "Get a job",
+  "priority": "High",
+  "completed": false
+}]

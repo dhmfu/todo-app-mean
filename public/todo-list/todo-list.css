@@ -1,0 +1,218 @@
+.task{
+  border-bottom: 1px solid #eee;
+  position: relative;
+  padding: 10px 5px;
+}
+
+.task:first-child{
+  border-top: 1px solid #eee;
+}
+
+.task-complete{
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  border: 1px solid #333;
+}
+
+.task-complete > input{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.task-complete > input:focus{
+  outline: 0;
+}
+
+.task-complete > input::after{
+  content: "";
+  font-size: 20px;
+  font-family: 'Glyphicons Halflings';
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 30px;
+  height: 30px;
+}
+
+.task-complete > input:checked::after{
+  content: "\e013";
+}
+
+.task-description{
+  font-size: 20px;
+  margin-left: 35px;
+  margin-right: 30px;
+  position: relative;
+}
+
+.description{
+  display: block;
+  word-wrap: break-word;
+  margin-right: 55px;
+  font-size: 25px;
+}
+
+.task-remove, .task-add{
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 5px;
+  margin: auto 0;
+  width: 30px;
+  height: 30px;
+}
+
+.task-remove::before, .task-add::before{
+  content: '\00D7';
+  font-size: 40px;
+  position: absolute;
+  top: -14px;
+  left: 4px;
+  cursor: pointer;
+  display: block;
+  height: 30px;
+  width: 30px;
+}
+
+.task-remove:hover, .task-add:hover{
+  opacity: 0.7;
+}
+
+.task-add{
+  background: 0;
+  border: 0;
+  padding: 0;
+}
+
+.task-add::before{
+  content: '\002b';
+  left: 0;
+}
+
+.task-add:focus{
+  outline: 0;
+}
+
+.task-description span.label{
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 24.5px;
+  margin: auto 0;
+}
+
+.task-completed{
+  text-decoration: line-through;
+  color: #eee;
+  font-style: italic;
+}
+
+form{
+  padding: 10px 5px;
+  position: relative;
+  font-size: 20px;
+  margin: 0;
+}
+
+form input{
+  font-size: 25px;
+  border: 0;
+  display: block;
+  padding-right: 80px;
+  width: 100%;
+}
+
+form input:focus{
+  outline: 0;
+}
+
+form .label{
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 28.5px;
+  margin: auto 0;
+}
+
+.task-details{
+  margin-left: 35px;
+  margin-right: 30px;
+  position: relative;
+}
+
+.info{
+  text-align: center;
+  font-size: 18px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.info span{
+  font-weight: bold;
+}
+
+.button-footer button{
+  margin: 10px 5px;
+}
+
+.input-error{
+  font-size: 15px;
+  font-style: italic;
+  margin-right: 80px;
+  border-top: 1px solid #a94442;
+  color: #a94442;
+  display: none;
+}
+
+form.ng-dirty.ng-invalid .input-error{
+  display: block;
+}
+
+.task-edit{
+  margin-left: 35px;
+  margin-right: 30px;
+  position: relative;
+  font-size: 20px;
+}
+
+.task-edit input{
+  font-size: 25px;
+  border: 0;
+  display: block;
+  padding-right: 80px;
+  width: 100%;
+  font-style: italic;
+  color: grey;
+  border-bottom: 1px solid #eee;
+}
+
+.task-edit input:focus{
+  outline: 0;
+}
+
+.task-edit .label{
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 28.5px;
+  margin: auto 0;
+}
+
+.task-mobile-buttons, .task-add-mobile, .task-complete-mobile{
+  display: none;
+}

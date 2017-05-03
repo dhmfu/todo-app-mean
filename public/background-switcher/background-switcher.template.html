@@ -1,0 +1,10 @@
+<div class="background-switcher">
+  <button type="button" class="btn btn-success btn-circle btn-xl" ng-click="$ctrl.toggleMenu()" title="select background"><i class="glyphicon glyphicon-plus"></i></button>
+  <div class="row" ng-if="$ctrl.isShown" ng-repeat="background in $ctrl.backgrounds">
+    <div class="col-md-3">
+      <div class="thumbnail" ng-click="$ctrl.setBackground(background.url)">
+        <img ng-src="{{background.url}}" style="width:100%">
+      </div>
+    </div>
+  </div>
+</div>
