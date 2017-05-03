@@ -13,7 +13,7 @@
   <div>
     <div class="task" ng-repeat="task in $ctrl.tasks" ng-init="showRemove=false; task.editing = false" ng-mouseenter="showRemove=true" ng-mouseleave="showRemove=false">
       <div class="task-complete" ng-if="!task.editing">
-        <input type="checkbox" ng-model="task.completed">
+        <input type="checkbox" ng-model="task.completed" ng-click="task.touched=true">
       </div>
       <div class="task-description" title="double-click to edit" ng-dblclick="!task.completed && (task.editing = !task.editing)" ng-if="!task.editing">
         <span ng-bind="task.description" class="description" ng-class="{'task-completed' : task.completed}"></span>

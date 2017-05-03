@@ -11,10 +11,13 @@ angular.
       this.tasks = [];
 
       $scope.$on('$destroy', function () {
+        if(!self.tasks.length) return;
         self.tasks.forEach(function (task) {
-          $http.post('/api/tasks', task).success(function () {
-            console.log(`Success updated task with id ${task._id}`);
-          });
+          if (task.touched) {
+            $http.post('/api/tasks', task).success(function () {
+              console.log(`Successfully updated ${task._id}`);
+            });
+          }
         })
       });
 
@@ -47,10 +50,12 @@ angular.
         if (this.completedTasks() == this.tasks.length)
           this.tasks.forEach(function(task) {
             task.completed = false;
+            task.touched = true;
           });
         else
           this.tasks.forEach(function(task) {
             task.completed = true;
+            task.touched = true;
           });
       };
 
