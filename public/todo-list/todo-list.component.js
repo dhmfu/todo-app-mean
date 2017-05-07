@@ -44,6 +44,7 @@ angular.
 
       this.addTask = function() {
         this.newTask.completed = false;
+        this.newTask.createdAt = new Date();
         this.tasks.push(this.newTask);
         $http.post('/api/tasks/new', this.newTask).success(function (resId) {
           self.tasks[self.tasks.length-1]._id = resId;

@@ -25,6 +25,7 @@ module.exports = function (app, dirPath) {
       description: set.description,
       priority: set.priority,
       completed: set.completed,
+      createdAt: set.createdAt
     }, function (err, task) {
         if (err) res.send(err);
         res.json(task._id);
