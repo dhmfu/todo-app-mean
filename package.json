@@ -1,9 +1,9 @@
 {
   "name": "todo",
-  "version": "0.0.1",
+  "version": "0.5.1",
   "private": true,
   "scripts": {
-    "start": "node app.js",
+    "start": "node server.js",
     "prestart": "npm install",
     "postinstall": "bower install"
   },
@@ -12,6 +12,7 @@
     "mongoose": "^4.4.12",
     "morgan": "^1.1.1",
     "body-parser": "^1.4.3",
-    "method-override": "^2.1.3"
+    "method-override": "^2.1.3",
+    "nconf": "^0.8.4"
   }
 }

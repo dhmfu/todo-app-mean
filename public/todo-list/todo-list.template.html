@@ -19,7 +19,7 @@
         <span ng-bind="task.description" class="description" ng-class="{'task-completed' : task.completed}"></span>
         <span class="label label-default" ng-class="$ctrl.determinePriority(task)" ng-bind="task.priority"></span>
         <div class="task-mobile-buttons">
-          <button type="button" ng-click="task.completed = ! task.completed" class="btn btn-primary task-complete-mobile" ng-bind="$ctrl.select_button(task)"></button>
+          <button type="button" ng-click="$ctrl.select_button(task)" class="btn btn-primary task-complete-mobile" ng-bind="task.selection"></button>
           <button type="button" ng-click="$ctrl.taskRemove(task)" class="btn btn-danger pull-right">Delete</button>
           <button type="button" ng-if="!task.completed" ng-click="task.editing = !task.editing" class="btn btn-default pull-right">Edit</button>
         </div>

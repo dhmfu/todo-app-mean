@@ -1,4 +1,4 @@
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   body{
     background-size: initial;
   }
@@ -48,7 +48,7 @@
 
   .task-mobile-buttons{
     display: block;
-    margin-top: 5px;
+    margin-top: 10px;
   }
 
   .task-mobile-buttons button:last-child{
@@ -87,6 +87,12 @@
     padding: 0;
   }
 
+}
+
+@media screen and (min-width: 769px) and (max-width: 1200px){
+  .content{
+    width: 55%;
+  }
 }
 
 @media screen and (max-width: 320px) {

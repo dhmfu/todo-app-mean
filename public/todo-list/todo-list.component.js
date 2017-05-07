@@ -1,16 +1,14 @@
 'use strict';
 
-
-
 angular.
   module('todoList').
   component('todoList', {
     templateUrl: 'todo-list/todo-list.template.html',
-    controller: ['$http', '$scope',function todoListController($http, $scope) {
+    controller: ['$http', '$scope', '$window',function todoListController($http, $scope, $window) {
       var self = this;
       this.tasks = [];
 
-      $scope.$on('$destroy', function () {
+      $scope.$on('$destroy', function () { //update tasks on server if it's needed when user change page
         if(!self.tasks.length) return;
         self.tasks.forEach(function (task) {
           if (task.touched) {
@@ -18,23 +16,40 @@ angular.
               console.log(`Successfully updated ${task._id}`);
             });
           }
-        })
+        });
       });
 
-      $http.get('/api/tasks').success(function(data) {
+      angular.element($window).on('beforeunload', function (event) { //update tasks on server if it's needed when user reload page
+        if(!self.tasks.length) return;
+        self.tasks.forEach(function (task) {
+          if (task.touched) {
+            $http.post('/api/tasks', task).success(function () {
+              console.log(`Successfully updated ${task._id}`);
+            });
+          }
+        });
+      });
+
+      $http.get('/api/tasks').success(function(data) { //fetch all tasks from database
         self.tasks = data;
+        self.tasks.forEach(function (task) {
+          task.selection = (!task.completed ? 'Select' : 'Unselect');
+        });
       });
 
       this.newTask = {
-        priority: 'Low'
+        priority: 'Low',
+        selection: 'Select' //this property is used only for mobile version
       };
 
       this.addTask = function() {
         this.newTask.completed = false;
         this.tasks.push(this.newTask);
-        $http.post('/api/tasks/new', this.newTask).success(function () {
+        $http.post('/api/tasks/new', this.newTask).success(function (resId) {
+          self.tasks[self.tasks.length-1]._id = resId;
           self.newTask = {
-            priority: 'Low'
+            priority: 'Low',
+            selection: 'Select' //this property is used only for mobile version
           };
         });
       };
@@ -75,8 +90,10 @@ angular.
         return (this.completedTasks() != this.tasks.length ? 'Select' : 'Unselect') + ' all';
       };
 
-      this.select_button = function(task) {
-        return (!task.completed ? 'Select' : 'Unselect');
+      this.select_button = function(task) { //this function is used obly for mobile version
+        task.completed = !task.completed;
+        task.touched = true;
+        task.selection = (!task.completed ? 'Select' : 'Unselect');
       };
 
       this.acceptEdit = function(task, $event) {

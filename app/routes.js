@@ -3,10 +3,6 @@ var task = require('./models/task');
 var bodyParser = require('body-parser');
 
 module.exports = function (app, dirPath) {
-
-  app.use(bodyParser.urlencoded({'extended': 'true'})); // parse application/x-www-form-urlencoded
-  app.use(bodyParser.json()); // parse application/json
-  app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
   app.get('/api/tasks', function (req, res) {
     task.find(function (err, tasks) {
         if (err) res.send(err);
@@ -15,9 +11,7 @@ module.exports = function (app, dirPath) {
   });
 
   app.delete('/api/tasks/:id', function (req, res) {
-    task.remove({
-        _id: req.params.id
-    },
+    task.remove({_id: req.params.id},
     function (err, todo) {
       if (err) res.send(err);
       res.end();
@@ -33,7 +27,7 @@ module.exports = function (app, dirPath) {
       completed: set.completed,
     }, function (err, task) {
         if (err) res.send(err);
-        res.end();
+        res.json(task._id);
     });
 
   });
