@@ -15,8 +15,9 @@
       <div class="task-complete" ng-if="!task.editing">
         <input type="checkbox" ng-model="task.completed" ng-click="task.touched=true">
       </div>
-      <div class="task-description" title="double-click to edit" ng-dblclick="!task.completed && (task.editing = !task.editing)" ng-if="!task.editing">
-        <span ng-bind="task.description" class="description" ng-class="{'task-completed' : task.completed}"></span>
+      <div class="task-description" title="double-click to edit" ng-dblclick="!task.completed && (task.editing = !task.editing)" ng-if="!task.editing" ng-class="{'task-completed' : task.completed}">
+        <span ng-bind="task.description" class="description"></span>
+        <span class="description time">{{task.createdAt| date : "dd.MM.yy 'at' HH:mm"}}</span>
         <span class="label label-default" ng-class="$ctrl.determinePriority(task)" ng-bind="task.priority"></span>
         <div class="task-mobile-buttons">
           <button type="button" ng-click="$ctrl.select_button(task)" class="btn btn-primary task-complete-mobile" ng-bind="task.selection"></button>
