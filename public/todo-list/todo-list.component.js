@@ -10,25 +10,23 @@ angular.
 
       $scope.$on('$destroy', function () { //update tasks on server if it's needed when user change page
         if(!self.tasks.length) return;
-        self.tasks.forEach(function (task) {
-          if (task.touched) {
-            $http.post('/api/tasks', task).success(function () {
-              console.log(`Successfully updated ${task._id}`);
-            });
-          }
+        self.touchedTasks().forEach(function (task) {
+          $http.put('/api/tasks/'+task._id, task).success(function () {
+            clearInterval(autosave);
+            console.log(`Successfully updated ${task._id}`);
+          });
         });
       });
 
-      angular.element($window).on('beforeunload', function (event) { //update tasks on server if it's needed when user reload page
+      var autosave = setInterval(function () { //autosave every 15 seconds
         if(!self.tasks.length) return;
-        self.tasks.forEach(function (task) {
-          if (task.touched) {
-            $http.post('/api/tasks', task).success(function () {
-              console.log(`Successfully updated ${task._id}`);
-            });
-          }
+        self.touchedTasks().forEach(function (task) {
+          $http.put('/api/tasks/'+task._id, task).success(function () {
+            console.log(`Successfully updated ${task._id}`);
+          });
         });
-      });
+      }, 15000);
+
 
       $http.get('/api/tasks').success(function(data) { //fetch all tasks from database
         self.tasks = data;
@@ -55,7 +53,7 @@ angular.
         });
       };
 
-      this.removeCompleted = function() { //it can be better
+      this.removeCompleted = function() { //can it be better?
         this.tasks.forEach(function (task) {
           if(task.completed)
             self.taskRemove(task);
@@ -87,11 +85,17 @@ angular.
         }).length;
       };
 
+      this.touchedTasks = function () {
+        return this.tasks.filter(function (task) {
+          return task.touched;
+        });
+      }
+
       this.selectAll_button = function() {
         return (this.completedTasks() != this.tasks.length ? 'Select' : 'Unselect') + ' all';
       };
 
-      this.select_button = function(task) { //this function is used obly for mobile version
+      this.select_button = function(task) { //this function is used only for mobile version
         task.completed = !task.completed;
         task.touched = true;
         task.selection = (!task.completed ? 'Select' : 'Unselect');
@@ -102,7 +106,7 @@ angular.
           if (!task.description)
             this.taskRemove(task);
           else
-            $http.post('/api/tasks', task).success(function () {
+            $http.patch('/api/tasks/'+task._id, task).success(function () {
               task.editing = false;
             });
         }

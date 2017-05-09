@@ -34,13 +34,23 @@ module.exports = function (app, dirPath) {
   });
 
 
-  app.post('/api/tasks', function (req, res) { //it can be better
+  app.patch('/api/tasks/:id', function (req, res) { //it can be better
     var set = req.body;
-    task.findById(set._id, function (err, task) {
+    task.findById(req.params.id, function (err, task) {
       if (err) res.send(err);
       task.description = set.description;
       task.priority = set.priority;
-      task.completed = set.completed;
+      task.save(function (err, updatedTask) {
+        if (err) res.send(err);
+        res.end();
+      });
+    });
+  });
+
+  app.put('/api/tasks/:id', function (req, res) {
+    task.findById(req.params.id, function (err, task) {
+      if (err) res.send(err);
+      task.completed = req.body.completed;
       task.save(function (err, updatedTask) {
         if (err) res.send(err);
         res.end();
