@@ -8,24 +8,24 @@ angular.
       var self = this;
       this.tasks = [];
 
-      $scope.$on('$destroy', function () { //update tasks on server if it's needed when user change page
+      function updateTouched() {
         if(!self.tasks.length) return;
         self.touchedTasks().forEach(function (task) {
           $http.put('/api/tasks/'+task._id, task).success(function () {
-            clearInterval(autosave);
+            task.touched = false;
             console.log(`Successfully updated ${task._id}`);
           });
         });
+      }
+
+      $scope.$on('$destroy', function () { //update tasks on server if it's needed when user change page
+        clearInterval(autosave);
+        updateTouched();
       });
 
-      var autosave = setInterval(function () { //autosave every 15 seconds
-        if(!self.tasks.length) return;
-        self.touchedTasks().forEach(function (task) {
-          $http.put('/api/tasks/'+task._id, task).success(function () {
-            console.log(`Successfully updated ${task._id}`);
-          });
-        });
-      }, 15000);
+      angular.element($window).on('beforeunload', updateTouched);
+
+      var autosave = setInterval(updateTouched, 15000); //autosave every 15 seconds
 
 
       $http.get('/api/tasks').success(function(data) { //fetch all tasks from database
