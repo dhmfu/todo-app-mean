@@ -58,6 +58,11 @@ module.exports = function (app, dirPath) {
     });
   });
 
+  app.get('/admin', function (req, res) {
+    req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+    res.send("Visits: " + req.session.numberOfVisits);
+  });
+
   app.get('*', function (req, res) {
     res.sendFile(path.join(dirPath+'/public' + req.url));
   });

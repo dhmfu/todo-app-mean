@@ -4,8 +4,10 @@ var morgan = require('morgan');
 var path = require('path');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var nconf = require('nconf');
 var config = require('./config');
+var session = require('express-session');
+var mongoose = require('./app/mongoose');
+
 
 var app = express();
 app.set('port', config.get('port'));
@@ -13,6 +15,16 @@ app.set('port', config.get('port'));
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+var MongoStore = require('connect-mongo')(session);
+
+app.use(session({
+  secret: config.get('session:secret'),
+  key: config.get('session:key'),
+  resave: false,
+  saveUninitialized: true,
+  cookie: config.get('session:cookie'),
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
 
 app.use(morgan('dev'));
 

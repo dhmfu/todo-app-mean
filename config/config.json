@@ -2,5 +2,14 @@
   "port" : 3000,
   "db" : {
     "connection" : "mongodb://localhost/todo"
+  },
+  "session": {
+    "secret": "KillerIsJim",
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
+    }
   }
 }
