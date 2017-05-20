@@ -7,11 +7,11 @@ var methodOverride = require('method-override');
 var config = require('./config');
 var session = require('express-session');
 var mongoose = require('./app/mongoose');
-
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
 app.set('port', config.get('port'));
-
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
@@ -28,6 +28,34 @@ app.use(session({
 
 app.use(morgan('dev'));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.checkPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
+
+// Serialized and deserialized methods when got from session
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+
+
 app.use(bodyParser.urlencoded({'extended': 'true'}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
@@ -41,4 +69,7 @@ app.use(function(err, req, res, next) {
   }
 });
 
-require('./app/routes.js')(app, __dirname);
+app.use(express.static(path.join(__dirname, 'public')));
+
+require('./app/routes/api.js')(app, __dirname);
+require('./app/routes/auth.js')(app, __dirname);
