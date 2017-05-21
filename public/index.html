@@ -21,6 +21,8 @@
     <script src="background-switcher/background-switcher.component.js"></script>
     <script src="todo-list/todo-list.module.js"></script>
     <script src="todo-list/todo-list.component.js"></script>
+    <script src="login/login.module.js"></script>
+    <script src="login/login.component.js"></script>
   </head>
   <body ng-style="{'background-image':'url('+mainBackgroundUrl+')'}">
     <bg-switch></bg-switch>
@@ -40,6 +42,7 @@
             <li ng-class="navbar.isActive('todo-list')"><a href="#todo-list">Todo-list</a></li>
             <li ng-class="navbar.isActive('about')"><a href="#about">About</a></li>
             <li ng-class="navbar.isActive('home')"><a href="#home">Home</a></li>
+              <li ng-class="navbar.isActive('login')"><a href="#login">Login</a></li>
           </ul>
         </div>
       </div>

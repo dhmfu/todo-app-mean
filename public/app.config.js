@@ -11,5 +11,8 @@ angular.
       when('/home', {
         templateUrl: 'welcome.html'
       }).
+      when('/login', {
+        template: '<login></login>'
+      }).
       otherwise('/home');
   }]);
