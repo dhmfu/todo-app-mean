@@ -117,6 +117,10 @@ angular.
           return (task.priority == 'High') ? 'label-warning' : 'label-success';
       };
 
+      $scope.logout = function(){
+        // $rootScope.message = 'Logged out.';
+        $http.post('/logout');
+      };
     }
   ]
   });

@@ -1,3 +1,6 @@
+  <div>
+    <a href="#/home" ng-click="logout()">Logout</a>
+  </div>
   <form name="taskForm" ng-submit="taskForm.$valid && $ctrl.addTask()" novalidate>
     <div class="task-details">
       <input ng-model="$ctrl.newTask.description" placeholder="Write down your task" autofocus required>
