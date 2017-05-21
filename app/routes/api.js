@@ -3,14 +3,24 @@ var task = require('../models/task');
 
 
 module.exports = function (app) {
-  app.get('/api/tasks', function (req, res) {
+
+  // Define a middleware function to be used for every secured routes
+  var auth = function(req, res, next){
+    if (!req.isAuthenticated())
+    	res.send(401);
+    else
+    	next();
+  };
+  //==================================================================
+
+  app.get('/api/tasks', auth, function (req, res) {
     task.find(function (err, tasks) {
         if (err) res.send(err);
         res.json(tasks);
     });
   });
 
-  app.delete('/api/tasks/:id', function (req, res) {
+  app.delete('/api/tasks/:id', auth, function (req, res) {
     task.remove({_id: req.params.id},
     function (err, todo) {
       if (err) res.send(err);
@@ -18,7 +28,7 @@ module.exports = function (app) {
     });
   });
 
-  app.post('/api/tasks/new', function (req, res) {
+  app.post('/api/tasks/new', auth, function (req, res) {
     var set = req.body;
 
     task.create({
@@ -34,7 +44,7 @@ module.exports = function (app) {
   });
 
 
-  app.patch('/api/tasks/:id', function (req, res) { //it can be better
+  app.patch('/api/tasks/:id', auth, function (req, res) { //it can be better
     var set = req.body;
     task.findById(req.params.id, function (err, task) {
       if (err) res.send(err);
@@ -47,7 +57,7 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/tasks/:id', function (req, res) {
+  app.put('/api/tasks/:id', auth, function (req, res) {
     task.findById(req.params.id, function (err, task) {
       if (err) res.send(err);
       task.completed = req.body.completed;
