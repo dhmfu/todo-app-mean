@@ -2,7 +2,7 @@ var path = require('path');
 var task = require('../models/task');
 
 
-module.exports = function (app, dirPath) {
+module.exports = function (app) {
   app.get('/api/tasks', function (req, res) {
     task.find(function (err, tasks) {
         if (err) res.send(err);

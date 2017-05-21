@@ -9,6 +9,7 @@ var session = require('express-session');
 var mongoose = require('./app/mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var User = require('./app/models/user').User;
 
 var app = express();
 app.set('port', config.get('port'));
@@ -71,5 +72,5 @@ app.use(function(err, req, res, next) {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./app/routes/api.js')(app, __dirname);
-require('./app/routes/auth.js')(app, __dirname);
+require('./app/routes/api.js')(app);
+require('./app/routes/auth.js')(app, __dirname, passport);
