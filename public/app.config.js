@@ -39,7 +39,7 @@ angular.
         responseError: function(response) {
           if (response.status === 401)
             $location.url('/login');
-          console.log(response);
+          console.log('Error:\n'+response);
           return $q.reject(response);
         }
       };

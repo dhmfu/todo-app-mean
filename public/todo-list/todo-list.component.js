@@ -4,28 +4,29 @@ angular.
   module('todoList').
   component('todoList', {
     templateUrl: 'todo-list/todo-list.template.html',
-    controller: ['$http', '$scope', '$window',function todoListController($http, $scope, $window) {
+    controller: ['$http', '$scope', '$window', '$location',function todoListController($http, $scope, $window, $location) {
       var self = this;
       this.tasks = [];
 
-      function updateTouched() {
-        if(!self.tasks.length) return;
-        self.touchedTasks().forEach(function (task) {
-          $http.put('/api/tasks/'+task._id, task).success(function () {
-            task.touched = false;
-            console.log(`Successfully updated ${task._id}`);
-          });
-        });
+      function updateTouched(str='l') {
+        console.log('GOT IT FROM '+str);
+        return $http.put('/api/tasks/', self.touchedTasks());
       }
 
-      $scope.$on('$destroy', function () { //update tasks on server if it's needed when user change page
-        clearInterval(autosave);
-        updateTouched();
+      $scope.$on('$locationChangeStart', function () { //update tasks on server if it's needed when user change page
+        // clearInterval(autosave);
+        // alert($location.path());
+        if($location.path()=='/login') return;
+        if (!self.tasks.length) return;
+        if (!self.touchedTasks().length) return;
+        updateTouched('from destroy');
       });
 
-      angular.element($window).on('beforeunload', updateTouched);
+      // angular.element($window).on('beforeunload', updateTouched);
 
-      var autosave = setInterval(updateTouched, 15000); //autosave every 15 seconds
+      // var autosave = setInterval(function () {
+      //   updateTouched();
+      // }, 15000); //autosave every 15 seconds
 
 
       $http.get('/api/tasks').success(function(data) { //fetch all tasks from database
@@ -118,8 +119,15 @@ angular.
       };
 
       $scope.logout = function(){
-        // $rootScope.message = 'Logged out.';
-        $http.post('/logout');
+        if (self.touchedTasks().length)
+          updateTouched('from logout').success(function () {
+            return $http.post('/logout');
+          }).success(function() {
+            $location.url('/login');
+          });
+        else $http.post('/logout').success(function () {
+          $location.url('/login');
+        });
       };
     }
   ]

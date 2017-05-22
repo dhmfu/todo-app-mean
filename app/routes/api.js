@@ -57,13 +57,16 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/tasks/:id', auth, function (req, res) {
-    task.findById(req.params.id, function (err, task) {
-      if (err) res.send(err);
-      task.completed = req.body.completed;
-      task.save(function (err, updatedTask) {
+  app.put('/api/tasks/', auth, function (req, res) {
+    console.log(req.body);
+    req.body.forEach(function (set) {
+      task.findById(set._id, function (err, task) {
         if (err) res.send(err);
-        res.end();
+        task.completed = set.completed;
+        task.save(function (err, updatedTask) {
+          if (err) res.send(err);
+          res.end();
+        });
       });
     });
   });
