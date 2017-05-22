@@ -7,6 +7,20 @@ angular.
     controller: ['$http', '$scope', '$window', '$location',function todoListController($http, $scope, $window, $location) {
       var self = this;
       this.tasks = [];
+      this.orderProp = 'priority';
+      $scope.reverse = false;
+      $scope.sortColor = '#f0ad4e';
+
+      this.sort = function () {
+        if ($scope.reverse) {
+          $scope.reverse = false;
+          $scope.sortColor = '#f0ad4e';
+        }
+        else {
+          $scope.reverse = true;
+          $scope.sortColor = '#5cb85c';
+        }
+      };
 
       function updateTouched(str='l') {
         console.log('GOT IT FROM '+str);

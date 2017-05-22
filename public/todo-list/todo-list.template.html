@@ -14,7 +14,7 @@
     <button type="submit" ng-if="$ctrl.newTask.description" class="task-add"></button>
   </form>
   <div>
-    <div class="task" ng-repeat="task in $ctrl.tasks" ng-init="showRemove=false; task.editing = false" ng-mouseenter="showRemove=true" ng-mouseleave="showRemove=false">
+    <div class="task" ng-repeat="task in $ctrl.tasks | orderBy: $ctrl.orderProp: reverse" ng-init="showRemove=false; task.editing = false" ng-mouseenter="showRemove=true" ng-mouseleave="showRemove=false">
       <div class="task-complete" ng-if="!task.editing">
         <input type="checkbox" ng-model="task.completed" ng-click="task.touched=true">
       </div>
@@ -43,6 +43,14 @@
   <div ng-if="$ctrl.tasks.length">
     <div class="info">
       <span ng-bind="$ctrl.completedTasks()"></span> of <span ng-bind="$ctrl.tasks.length"></span> tasks completed
+      <div>
+        Sort by:
+        <select ng-model="$ctrl.orderProp">
+          <option value="priority">Priotity</option>
+          <option value="createdAt">Date</option>
+        </select>
+        <span class="glyphicon glyphicon-sort" aria-hidden="true" ng-click="$ctrl.sort()" ng-style="{color: sortColor}"></span>
+      </div>
     </div>
     <div class="button-footer">
       <button type="button" ng-click="$ctrl.selectAll()" class="btn btn-default pull-right" ng-bind="$ctrl.selectAll_button()"></button>

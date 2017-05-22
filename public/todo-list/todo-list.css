@@ -222,3 +222,7 @@ form.ng-dirty.ng-invalid .input-error{
 .task-mobile-buttons, .task-add-mobile, .task-complete-mobile{
   display: none;
 }
+
+.glyphicon.glyphicon-sort, select{
+  cursor: pointer;
+}

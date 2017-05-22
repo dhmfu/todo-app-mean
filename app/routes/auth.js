@@ -15,8 +15,8 @@ module.exports = function (app, dirPath, passport) {
 
   // route to log out
   app.post('/logout', function(req, res){
-    req.logOut();
-    res.send(200);
+    req.logout();
+    res.end();
   });
   //==================================================================
 
