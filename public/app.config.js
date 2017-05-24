@@ -25,6 +25,29 @@ angular.
 
       return deferred.promise;
     };
+
+    var whenLoggedin = function($q, $timeout, $http, $location, $rootScope){
+      // Initialize a new promise
+      var deferred = $q.defer();
+
+      // Make an AJAX call to check if the user is logged in
+      $http.get('/loggedin').success(function(user){
+        // Authenticated
+        if (user !== '0'){
+          /*$timeout(deferred.resolve, 0);*/
+          deferred.reject();
+          $location.url('/todo-list');
+}
+        // Not Authenticated
+        else {
+          // $rootScope.message = 'You need to log in.';
+          //$timeout(function(){deferred.reject();}, 0);
+          deferred.resolve();
+        }
+      });
+
+      return deferred.promise;
+    };
     //================================================
 
     //================================================
@@ -60,7 +83,10 @@ angular.
         templateUrl: 'welcome.html'
       }).
       when('/login', {
-        template: '<login></login>'
+        template: '<login></login>',
+        resolve: {
+          loggedin: whenLoggedin
+        }
       }).
       otherwise('/home');
   }]);
