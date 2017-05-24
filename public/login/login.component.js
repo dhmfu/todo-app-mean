@@ -4,7 +4,7 @@ angular.
   module('login').
   component('login', {
     templateUrl: 'login/login.template.html',
-    controller:['$http', '$scope', '$location', function loginController($http, $scope, $location) {
+    controller:['$http', '$scope', '$location', '$rootScope', function loginController($http, $scope, $location, $rootScope) {
       // This object will be filled by the form
       $scope.username = $scope.password = '';
 
@@ -16,12 +16,12 @@ angular.
         })
         .success(function(user){
           // No error: authentication OK
-          // $rootScope.message = 'Authentication successful!';
+          $rootScope.message = 'Authentication successful!';
           $location.url('/todo-list');
         })
         .error(function(){
           // Error: authentication failed
-          // $rootScope.message = 'Authentication failed.';
+          $rootScope.message = 'Authentication failed.';
           $location.url('/login');
         });
       };

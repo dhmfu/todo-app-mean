@@ -35,7 +35,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Todo-App</a>
+          <a class="navbar-brand" href="#home">Todo-App</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
@@ -43,13 +43,13 @@
             <li ng-class="navbar.isActive('about')"><a href="#about">About</a></li>
             <li ng-class="navbar.isActive('home')"><a href="#home">Home</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <!-- <ul class="nav navbar-nav navbar-right">
             <li ng-class="navbar.isActive('login')"><a href="#login">Login</a></li>
-          </ul>
+          </ul> -->
         </div>
       </div>
     </nav>
-
+    <h1>{{message}}</h1>
     <div class="content" ng-view></div>
   </body>
 </html>
