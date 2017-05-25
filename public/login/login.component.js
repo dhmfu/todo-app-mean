@@ -10,19 +10,17 @@ angular.
 
       // Register the login() function
       $scope.login = function(){
-        $rootScope.test = true;
+        $rootScope.loggedIn = true;
         $http.post('/login', {
           username: $scope.username,
           password: $scope.password,
         })
         .success(function(user){
           // No error: authentication OK
-          $rootScope.message = 'Authentication successful!';
           $location.url('/todo-list');
         })
         .error(function(){
           // Error: authentication failed
-          $rootScope.message = 'Authentication failed.';
           $location.url('/login');
         });
       };

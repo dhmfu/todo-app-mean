@@ -25,12 +25,11 @@ angular.
       function updateTouched(str='l') {
         console.log('GOT IT FROM '+str);
         console.log(self.touchedTasks().length);
-        return $http.put('/api/tasks/', self.touchedTasks());
+        return $http.put('/tasks', self.touchedTasks());
       }
 
       $scope.$on('$locationChangeStart', function () { //update tasks on server if it's needed when user change page
         // clearInterval(autosave);
-        // alert($location.path());
         if($location.path()=='/login') return;
         if (!self.tasks.length) return;
         if (!self.touchedTasks().length) return;
@@ -44,7 +43,7 @@ angular.
       // }, 15000); //autosave every 15 seconds
 
 
-      $http.get('/api/tasks').success(function(data) { //fetch all tasks from database
+      $http.get('/tasks').success(function(data) { //fetch all tasks from database
         self.tasks = data;
         self.tasks.forEach(function (task) {
           task.selection = (!task.completed ? 'Select' : 'Unselect');
@@ -60,7 +59,7 @@ angular.
         this.newTask.completed = false;
         this.newTask.createdAt = new Date().toISOString();
         this.tasks.push(this.newTask);
-        $http.post('/api/tasks/new', this.newTask).success(function (resId) {
+        $http.post('/tasks/new', this.newTask).success(function (resId) {
           self.tasks[self.tasks.length-1]._id = resId;
           self.newTask = {
             priority: 'Low',
@@ -90,7 +89,7 @@ angular.
       };
 
       this.taskRemove = function(task) {
-        $http.delete('/api/tasks/' + task._id).success(function () {
+        $http.delete('/tasks/' + task._id).success(function () {
           self.tasks.splice(self.tasks.indexOf(task),1);
         });
       };
@@ -122,7 +121,7 @@ angular.
           if (!task.description)
             this.taskRemove(task);
           else
-            $http.patch('/api/tasks/'+task._id, task).success(function () {
+            $http.patch('/tasks/'+task._id, task).success(function () {
               task.editing = false;
             });
         }
@@ -134,7 +133,7 @@ angular.
       };
 
       this.logout = function(){
-        $rootScope.test = false;
+        $rootScope.loggedIn = false;
         if (self.touchedTasks().length)
           updateTouched('from logout').success(function () {
             return $http.post('/logout');
@@ -147,9 +146,9 @@ angular.
       };
 
       var interval = setInterval(function () {
-        if ($rootScope.fire == 47) {
+        if ($rootScope.fireLogout) {
           self.logout();
-          $rootScope.fire=7;
+          $rootScope.fireLogout = false;
           clearInterval(interval);
         }
       },100);

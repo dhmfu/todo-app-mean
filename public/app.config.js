@@ -4,20 +4,13 @@ angular.
     // Check if the user is connected
     //================================================
     var checkLoggedin = function($q, $timeout, $http, $location, $rootScope){
-      // Initialize a new promise
       var deferred = $q.defer();
 
-      // Make an AJAX call to check if the user is logged in
-      $http.get('/loggedin').success(function(user){
+      $http.get('/loggedin').success(function(check){
         // Authenticated
-        if (user !== '0')
-          /*$timeout(deferred.resolve, 0);*/
+        if (check)
           deferred.resolve();
-
-        // Not Authenticated
-        else {
-          $rootScope.message = 'You need to log in.';
-          //$timeout(function(){deferred.reject();}, 0);
+        else { //Not Authenticated
           deferred.reject();
           $location.url('/login');
         }
@@ -27,22 +20,15 @@ angular.
     };
 
     var whenLoggedin = function($q, $timeout, $http, $location, $rootScope){
-      // Initialize a new promise
       var deferred = $q.defer();
 
-      // Make an AJAX call to check if the user is logged in
-      $http.get('/loggedin').success(function(user){
+      $http.get('/loggedin').success(function(check){
         // Authenticated
-        if (user !== '0'){
-          /*$timeout(deferred.resolve, 0);*/
-          deferred.reject();
-          $location.url('/todo-list');
-          $rootScope.message = 'You are already logged-in.';
-}
-        // Not Authenticated
-        else {
-          //$timeout(function(){deferred.reject();}, 0);
+        if (!check)
           deferred.resolve();
+        else { //Not Authenticated
+          deferred.reject();
+          $location.url('/login');
         }
       });
 
@@ -85,7 +71,7 @@ angular.
       when('/login', {
         template: '<login></login>',
         resolve: {
-          loggedin: whenLoggedin
+          loggedIn: whenLoggedin
         }
       }).
       otherwise('/home');

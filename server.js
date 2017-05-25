@@ -72,5 +72,5 @@ app.use(function(err, req, res, next) {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./app/routes/api.js')(app);
+require('./app/routes/tasks.js')(app);
 require('./app/routes/auth.js')(app, __dirname, passport);

@@ -5,7 +5,7 @@ module.exports = function (app, dirPath, passport) {
   //==================================================================
   // route to test if the user is logged in or not
   app.get('/loggedin', function(req, res) {
-    res.send(req.isAuthenticated() ? req.user : '0');
+    res.send(req.isAuthenticated());
   });
 
   // route to log in
