@@ -27,7 +27,7 @@
   <body ng-style="{'background-image':'url('+mainBackgroundUrl+')'}">
     <bg-switch></bg-switch>
 
-    <nav class="navbar navbar-default" ng-controller="NavbarController as navbar">
+    <nav class="navbar navbar-default" ng-controller="NavbarController as navCtrl">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -39,17 +39,20 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li ng-class="navbar.isActive('todo-list')"><a href="#todo-list">Todo-list</a></li>
-            <li ng-class="navbar.isActive('about')"><a href="#about">About</a></li>
-            <li ng-class="navbar.isActive('home')"><a href="#home">Home</a></li>
+            <li ng-class="navCtrl.isActive('todo-list')"><a href="#todo-list">Todo-list</a></li>
+            <li ng-class="navCtrl.isActive('about')"><a href="#about">About</a></li>
+            <li ng-class="navCtrl.isActive('home')"><a href="#home">Home</a></li>
           </ul>
-          <!-- <ul class="nav navbar-nav navbar-right">
-            <li ng-class="navbar.isActive('login')"><a href="#login">Login</a></li>
-          </ul> -->
+          <ul class="nav navbar-nav navbar-right" ng-if="test">
+            <li><a style="cursor: pointer;" ng-click="navCtrl.logout()">Logout</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right" ng-if="!test">
+            <li ng-class="navCtrl.isActive('login')"><a href="#login">Login</a></li>
+          </ul>
+          {{test}}
         </div>
       </div>
     </nav>
-    <h1>{{message}}</h1>
     <div class="content" ng-view></div>
   </body>
 </html>

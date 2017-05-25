@@ -10,6 +10,7 @@ angular.
 
       // Register the login() function
       $scope.login = function(){
+        $rootScope.test = true;
         $http.post('/login', {
           username: $scope.username,
           password: $scope.password,

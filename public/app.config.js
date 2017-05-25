@@ -37,10 +37,10 @@ angular.
           /*$timeout(deferred.resolve, 0);*/
           deferred.reject();
           $location.url('/todo-list');
+          $rootScope.message = 'You are already logged-in.';
 }
         // Not Authenticated
         else {
-          // $rootScope.message = 'You need to log in.';
           //$timeout(function(){deferred.reject();}, 0);
           deferred.resolve();
         }

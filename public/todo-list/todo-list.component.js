@@ -4,10 +4,10 @@ angular.
   module('todoList').
   component('todoList', {
     templateUrl: 'todo-list/todo-list.template.html',
-    controller: ['$http', '$scope', '$window', '$location',function todoListController($http, $scope, $window, $location) {
+    controller: ['$http', '$scope', '$window', '$location', '$rootScope',function todoListController($http, $scope, $window, $location, $rootScope) {
       var self = this;
       this.tasks = [];
-      this.orderProp = 'priority';
+      this.orderProp = 'createdAt';
       $scope.reverse = false;
       $scope.sortColor = '#f0ad4e';
 
@@ -24,6 +24,7 @@ angular.
 
       function updateTouched(str='l') {
         console.log('GOT IT FROM '+str);
+        console.log(self.touchedTasks().length);
         return $http.put('/api/tasks/', self.touchedTasks());
       }
 
@@ -132,7 +133,8 @@ angular.
           return (task.priority == 'High') ? 'label-warning' : 'label-success';
       };
 
-      $scope.logout = function(){
+      this.logout = function(){
+        $rootScope.test = false;
         if (self.touchedTasks().length)
           updateTouched('from logout').success(function () {
             return $http.post('/logout');
@@ -143,6 +145,14 @@ angular.
           $location.url('/login');
         });
       };
+
+      var interval = setInterval(function () {
+        if ($rootScope.fire == 47) {
+          self.logout();
+          $rootScope.fire=7;
+          clearInterval(interval);
+        }
+      },100);
     }
   ]
   });
