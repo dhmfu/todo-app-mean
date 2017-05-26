@@ -1,5 +1,6 @@
 var path = require('path');
 var task = require('../models/task');
+var User = require('../models/user').User;
 
 
 module.exports = function (app) {
@@ -12,11 +13,18 @@ module.exports = function (app) {
   //==================================================================
 
   app.get('/tasks', auth, function (req, res) {
-    task.find(function (err, tasks) {
+    task.find({user: req.user._id}, function (err, tasks) {
         if (err) res.send(err);
         res.json(tasks);
     });
   });
+
+  // app.get('/tasks', auth, function (req, res) {
+  //   task.find(function (err, tasks) {
+  //       if (err) res.send(err);
+  //       res.json(tasks);
+  //   });
+  // });
 
   app.delete('/tasks/:id', auth, function (req, res) {
     task.remove({_id: req.params.id},
@@ -33,7 +41,8 @@ module.exports = function (app) {
       description: set.description,
       priority: set.priority,
       completed: set.completed,
-      createdAt: set.createdAt
+      createdAt: set.createdAt,
+      user: req.user._id
     }, function (err, task) {
         if (err) res.send(err);
         res.json(task._id);

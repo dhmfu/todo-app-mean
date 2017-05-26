@@ -4,7 +4,8 @@ var schema = mongoose.Schema({
   description: String,
   priority: String,
   completed: Boolean,
-  createdAt: Date
+  createdAt: Date,
+  user: String
 });
 
 var task = mongoose.model('task', schema);
