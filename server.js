@@ -4,50 +4,73 @@ var morgan = require('morgan');
 var path = require('path');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var config = require('./config');
+var session = require('express-session');
+var mongoose = require('./app/mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('./app/models/user').User;
 
 var app = express();
-app.set('port', 3000);
-
+app.set('port', config.get('port'));
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+var MongoStore = require('connect-mongo')(session);
+
+app.use(session({
+  secret: config.get('session:secret'),
+  key: config.get('session:key'),
+  resave: false,
+  saveUninitialized: true,
+  cookie: config.get('session:cookie'),
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
 
 app.use(morgan('dev'));
-require('./app/routes.js')(app, __dirname);
 
-// app.use(function(err, req, res, next) {
-//   // NODE_ENV = 'production'
-//   if (app.get('env') == 'development') {
-//     var errorHandler = express.errorHandler();
-//     errorHandler(err, req, res, next);
-//   } else {
-//     res.send(500);
-//   }
-// });
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use(bodyParser.urlencoded({'extended': 'true'})); // parse application/x-www-form-urlencoded
-app.use(bodyParser.json()); // parse application/json
-app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
-app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.checkPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
-/*
+// Serialized and deserialized methods when got from session
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
 
-var routes = require('./routes');
-var user = require('./routes/user');
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
 
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-app.use(app.router);
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+app.use(bodyParser.urlencoded({'extended': 'true'}));
+app.use(bodyParser.json());
+app.use(bodyParser.json({type: 'application/vnd.api+json'}));
+app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(function(err, req, res, next) {
+  if (app.get('env') == 'development') {
+    var errorHandler = express.errorHandler();
+    errorHandler(err, req, res, next);
+  } else {
+    res.send(500);
+  }
+});
 
-*/
+app.use(express.static(path.join(__dirname, 'public')));
+
+require('./app/routes/tasks.js')(app);
+require('./app/routes/auth.js')(app, __dirname, passport);

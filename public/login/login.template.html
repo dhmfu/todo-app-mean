@@ -1,0 +1,43 @@
+<div class="info-block">
+  <h1 class="text-center">Login</h1>
+  <hr>
+  <form ng-submit="login()">
+    <div class="form-group">
+      <label class="control-label">Username</label>
+      <input type="text" class="form-control" placeholder="Username" ng-model="username" />
+    </div>
+    <div class="form-group">
+      <label class="control-label">Password</label>
+      <input type="password" class="form-control" placeholder="Password" ng-model="password" />
+    </div>
+    <p class="text-center">
+      <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+    </p>
+  </form>
+  <hr>
+  <div class="alert alert-warning">
+    <strong>We're sorry</strong> but registration of new user is temporary unavailable. Please login with one of these:
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Login</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>admin</td>
+          <td>admin</td>
+        </tr>
+        <tr>
+          <td>Петя</td>
+          <td>123</td>
+        </tr>
+        <tr>
+          <td>Vasya</td>
+          <td>supervasya</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

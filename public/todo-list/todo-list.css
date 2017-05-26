@@ -51,7 +51,7 @@
 
 .task-description{
   font-size: 20px;
-  margin-left: 35px;
+  margin-left: 40px;
   margin-right: 30px;
   position: relative;
 }
@@ -61,6 +61,12 @@
   word-wrap: break-word;
   margin-right: 55px;
   font-size: 25px;
+}
+
+.time{
+  color: #dfdcdc;
+  font-size: inherit;
+  font-style: italic;
 }
 
 .task-remove, .task-add{
@@ -215,4 +221,8 @@ form.ng-dirty.ng-invalid .input-error{
 
 .task-mobile-buttons, .task-add-mobile, .task-complete-mobile{
   display: none;
+}
+
+.glyphicon.glyphicon-sort, select{
+  cursor: pointer;
 }

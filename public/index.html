@@ -16,16 +16,19 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="app.module.js"></script>
+    <script src="app.controller.js"></script>
     <script src="app.config.js"></script>
     <script src="background-switcher/background-switcher.module.js"></script>
     <script src="background-switcher/background-switcher.component.js"></script>
     <script src="todo-list/todo-list.module.js"></script>
     <script src="todo-list/todo-list.component.js"></script>
+    <script src="login/login.module.js"></script>
+    <script src="login/login.component.js"></script>
   </head>
   <body ng-style="{'background-image':'url('+mainBackgroundUrl+')'}">
     <bg-switch></bg-switch>
 
-    <nav class="navbar navbar-default" ng-controller="NavbarController as navbar">
+    <nav class="navbar navbar-default" ng-controller="NavbarController as navCtrl">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -33,18 +36,23 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Todo-App</a>
+          <a class="navbar-brand" href="#home">Todo-App</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li ng-class="navbar.isActive('todo-list')"><a href="#todo-list">Todo-list</a></li>
-            <li ng-class="navbar.isActive('about')"><a href="#about">About</a></li>
-            <li ng-class="navbar.isActive('home')"><a href="#">Home</a></li>
+            <li ng-class="navCtrl.isActive('todo-list')"><a href="#todo-list">Todo-list</a></li>
+            <li ng-class="navCtrl.isActive('about')"><a href="#about">About</a></li>
+            <li ng-class="navCtrl.isActive('home')"><a href="#home">Home</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right" ng-if="loggedIn">
+            <li><a style="cursor: pointer;" ng-click="navCtrl.logout()">Logout</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right" ng-if="!loggedIn">
+            <li ng-class="navCtrl.isActive('login')"><a href="#login">Login</a></li>
           </ul>
         </div>
       </div>
     </nav>
-
     <div class="content" ng-view></div>
   </body>
 </html>

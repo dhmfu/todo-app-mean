@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/todo');
+var config = require('../config');
+mongoose.connect(config.get('db:connection'));
 
 module.exports = mongoose;
