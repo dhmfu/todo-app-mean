@@ -11,6 +11,8 @@ angular.
       $scope.reverse = false;
       $scope.sortColor = '#f0ad4e';
 
+      document.forms[0].elements[0].focus();
+
       this.sort = function () {
         if ($scope.reverse) {
           $scope.reverse = false;

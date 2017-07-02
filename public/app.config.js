@@ -23,12 +23,12 @@ angular.
       var deferred = $q.defer();
 
       $http.get('/loggedin').success(function(check){
-        // Authenticated
+         //Not Authenticated
         if (!check)
           deferred.resolve();
-        else { //Not Authenticated
+        else {// Authenticated
           deferred.reject();
-          $location.url('/login');
+          $location.url('/todo-list');
         }
       });
 

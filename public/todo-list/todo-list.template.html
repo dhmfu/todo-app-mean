@@ -1,6 +1,6 @@
   <form name="taskForm" ng-submit="taskForm.$valid && $ctrl.addTask()" novalidate>
     <div class="task-details">
-      <input ng-model="$ctrl.newTask.description" placeholder="Write down your task" autofocus required>
+      <input ng-model="$ctrl.newTask.description" placeholder="Write down your task" required>
       <div class="input-error">Task can't be empty</div>
       <select ng-model="$ctrl.newTask.priority" class="label" ng-class="$ctrl.determinePriority($ctrl.newTask)">
         <option value="Low" class="label-success">Low</option>
